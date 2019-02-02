@@ -1,21 +1,19 @@
-<?php
-include("includes/config.php");
-include("includes/classes/Artist.php");
-include("includes/classes/Album.php");
-include("includes/classes/Song.php");
-
-if(isset($_SESSION['userLoggedIn'])) {
-  $userLoggedIn = $_SESSION['userLoggedIn'];
-} else {
-  header("Location: register.php");
-}
-?>
 <!DOCTYPE html>
 <html lang="ja">
 <head>a
   <meta charset="utf-8">
   <title>Welcome to Spotify</title>
   <link rel="stylesheet" href="assets/css/style.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="assets/js/script.js"></script>
+  <?php
+  if(isset($_SESSION['userLoggedIn'])) {
+    $userLoggedIn = $_SESSION['userLoggedIn'];
+    echo "<script>userLoggedIn = '$userLoggedIn'</script>";
+  } else {
+    header("Location: register.php");
+  }
+  ?>
 </head>
 <body>
 <div id="mainContainer">
