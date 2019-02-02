@@ -14,6 +14,11 @@ class Artist {
     $this->artist = $artist['name'];
   }
 
+  public function getId()
+  {
+    return $this->id;
+  }
+
   public function getName()
   {
     return $this->artist;

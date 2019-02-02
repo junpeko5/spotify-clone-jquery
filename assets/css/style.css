@@ -369,6 +369,7 @@ body {
 }
 
 .trackListContainer h2,
+.artistsContainer h2,
 .gridViewContainer h2 {
   text-align: center;
 }
@@ -399,4 +400,21 @@ body {
 
 input:focus {
   outline: none;
+}
+
+.searchResultRow {
+  padding: 10px 15px;
+}
+
+.searchResultRow:hover {
+  background-color: #2a2a2a;
+}
+
+.searchResultRow .artistName {
+  color: #ffffff;
+}
+
+.noResults {
+  margin: 15px;
+  display: block;
 }
