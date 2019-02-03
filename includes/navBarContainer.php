@@ -23,8 +23,12 @@
         </span>
       </div>
       <div class="navItem">
-        <span class="logo" role="link" tabindex="0" onclick="openPage('profile.php');" class="navItemLink">
-          Jun Koni
+        <span class="logo"
+              role="link"
+              tabindex="0"
+              onclick="openPage('setting.php');"
+              class="navItemLink">
+          <?php echo $username ?>
         </span>
       </div>
     </div>
