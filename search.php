@@ -67,7 +67,10 @@ if ($term === '') exit();
                 <span class='artistName'>" . $album_artist->getName() . "</span>
               </div>
               <div class='trackOptions'>
-                <img class='optionsButton' src='assets/images/icons/more.png' alt='more'>
+                <input type='hidden' class='songId' value='" . $albumSong->getId() . "'>
+                <img class='optionsButton' 
+                src='assets/images/icons/more.png' 
+                alt='more' onclick='showOptionsMenu(this)'>
               </div>
               <div class='trackDuration'>
                 <span class='duration'>" . $albumSong->getDuration() . "</span>
@@ -124,3 +127,7 @@ if ($term === '') exit();
   }
   ?>
 </div>
+<nav class="optionsMenu">
+  <input type="hidden" class="songId" value="">
+  <?php echo Playlist::getPlaylistsDropdown($con, $userLoggedIn->getUsername()); ?>
+</nav>

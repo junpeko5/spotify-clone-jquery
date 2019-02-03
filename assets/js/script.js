@@ -9,6 +9,33 @@ var shuffle = false;
 var userLoggedIn;
 var timer;
 
+$(window).scroll(function() {
+  hideOptionsMenu();
+});
+
+$(document).click(function(click) {
+  var $target = $(click.target);
+  if(!$target.hasClass("item") && !$target.hasClass("optionsButton")) {
+    hideOptionsMenu();
+  }
+});
+
+$(document).on("change", "select.playlist", function() {
+  var $select = $(this);
+  var playlistId = $select.val();
+  var songId = $select.prev('.songId').val();
+
+  $.post("includes/handlers/ajax/addToPlaylist.php", { playlistId: playlistId, songId: songId})
+  .done(function(error) {
+    if(error !== "") {
+      alert(error);
+      return;
+    }
+    hideOptionsMenu();
+    $select.val("");
+  });
+});
+
 function openPage(url) {
   if(timer !== null) {
     clearTimeout(timer);
@@ -22,6 +49,19 @@ function openPage(url) {
   history.pushState(null, null, url);
 }
 
+function removeFromPlaylist(button, playlistId) {
+  var songId = $(button).prevAll(".songId").val();
+
+  $.post("includes/handlers/ajax/removeFromPlaylist.php", { playlistId: playlistId, songId: songId })
+    .done(function(error) {
+      if(error !== "") {
+        alert(error);
+        return;
+      }
+      // do something when ajax returns
+      openPage("playlist.php?id=" + playlistId);
+    })
+}
 
 function createPlaylist() {
   var popup = prompt("Please enter the name of your playlist");
@@ -44,7 +84,6 @@ function deletePlaylist(playlistId) {
   if (prompt) {
     $.post("includes/handlers/ajax/deletePlaylist.php", { playlistId: playlistId })
       .done(function(error) {
-        console.log(error)
         if(error !== "") {
           alert(error);
           return;
@@ -62,6 +101,25 @@ function formatTime(seconds) {
   var extraZero;
   seconds < 10 ? extraZero = "0" : extraZero = "";
   return minutes + ":" + extraZero + seconds;
+}
+
+function showOptionsMenu(button) {
+  var songId = $(button).prevAll(".songId").val();
+  var $menu = $(".optionsMenu");
+  var menuWidth = $menu.width();
+  $menu.find(".songId").val(songId);
+  var scrollTop = $(window).scrollTop();
+  var elementOffset = $(button).offset().top;
+  var top = elementOffset - scrollTop;
+  var left = $(button).position().left;
+  $menu.css({ "top": top + "px", "left": left - menuWidth + "px", "display": "inline"})
+}
+
+function hideOptionsMenu() {
+  var $menu = $(".optionsMenu");
+  if($menu.css("display") !== "none") {
+    $menu.css("display", "none");
+  }
 }
 
 function updateTimeProgressBar(audio) {
